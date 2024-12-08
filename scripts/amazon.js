@@ -1,10 +1,10 @@
-import {cart} from '../data/cart.js'; 
+import {cart, addToCart} from '../data/cart.js'; 
 import {products} from '../data/products.js';
 
 let productsHTML = '';
 
-products.forEach((product)=>{
-    productsHTML+= `
+products.forEach((product) => {
+    productsHTML += `
         <div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
@@ -65,46 +65,21 @@ innerHTML = productsHTML;
 
 const addedMessageTimeouts = {};
 
-document.querySelectorAll('.js-add-to-cart')
-    .forEach((button) => {
-        button.addEventListener('click', () => {
-        const { productId } = button.dataset;
-       
-        const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
-        const selectorValue = Number(quantitySelector.value);    
-       
 
-        let matchingItem;
+function updateCartQuantity() {
+  let cartQuantity = 0;
 
-        cart.forEach((item) => {
-            if(productId === item.productId){
-                matchingItem = item;
-            }
-        });
-
-        if (matchingItem) {
-            matchingItem.quantity += selectorValue;
-        } else {
-            cart.push({
-                productId,
-                quantity: selectorValue
-            });
-        };
-
-        
-
-        let cartQuantity = 0;
-
-        cart.forEach((item) => {
-            cartQuantity+=item.quantity;
+        cart.forEach((cartItem) => {
+            cartQuantity+=cartItem.quantity;
         });
 
 
         document.querySelector('.js-cart-quantity').
         innerHTML = cartQuantity;
+};
 
-           
-        const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`)
+function addedToCartMessage(productId) {
+  const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`)
        
         addedMessage.classList.add('visible');
 
@@ -121,12 +96,17 @@ document.querySelectorAll('.js-add-to-cart')
         // Save the timeoutId for this product
         // so we can stop it later if we need to.
         addedMessageTimeouts[productId] = timeoutId;
-       
-        
-        
-        
-        
-        
+};
 
+document.querySelectorAll('.js-add-to-cart')
+    .forEach((button) => {
+        button.addEventListener('click', () => {
+        const { productId } = button.dataset;
+       
+        const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+        const selectorValue = Number(quantitySelector.value);    
+        addToCart(productId,selectorValue);
+        updateCartQuantity();
+        addedToCartMessage(productId);
         });
     });
