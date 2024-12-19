@@ -110,3 +110,5 @@ document.querySelectorAll('.js-add-to-cart')
         addedToCartMessage(productId);
         });
     });
+
+updateCartQuantity();    

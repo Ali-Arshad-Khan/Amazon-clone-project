@@ -110,13 +110,14 @@ document.querySelectorAll('.js-delete-link')
             );
             container.remove();
 
-            showCart();
+            updateCartQuantity();
         });
     });
 
     // naming this function my own name instead of updateCartQuantity
     // for my own better understanding
-    function showCart(){
+    // fixed this in next commit
+    function updateCartQuantity(){
 
     let cartQuantity = 0;
 
@@ -127,4 +128,4 @@ document.querySelectorAll('.js-delete-link')
     document.querySelector('.js-return-to-home-link').innerHTML=cartQuantity;
 
   }
-  showCart();
+  updateCartQuantity();
