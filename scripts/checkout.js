@@ -109,7 +109,22 @@ document.querySelectorAll('.js-delete-link')
                 `.js-cart-item-container-${productId}`
             );
             container.remove();
+
+            showCart();
         });
     });
 
+    // naming this function my own name instead of updateCartQuantity
+    // for my own better understanding
+    function showCart(){
 
+    let cartQuantity = 0;
+
+    cart.forEach((cartItem) => {
+        cartQuantity+=cartItem.quantity;
+    });
+    
+    document.querySelector('.js-return-to-home-link').innerHTML=cartQuantity;
+
+  }
+  showCart();
